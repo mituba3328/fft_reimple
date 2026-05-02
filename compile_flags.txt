@@ -1,0 +1,7 @@
+-Wall
+-Weverything
+-Werror
+-fsanitize=undefined,address
+-std=c23
+-O3
+-mfpmath=sse
