@@ -1,6 +1,6 @@
 -Wall
 -Weverything
 -fsanitize=undefined,address
--std=c23
+-std=gnu23
 -O3
 -mfpmath=sse
