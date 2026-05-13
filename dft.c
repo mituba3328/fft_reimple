@@ -1,35 +1,40 @@
 #define _GNU_SOURCE
+#include <stddef.h>
 #include <stdio.h>
 #include <math.h>
 #include <complex.h>
 
-float target_func(float x);
+#define Sample_N 1024
+
+void dft(double complex* out, const double complex* in, size_t N);
+void target_func(double complex *out, size_t N);
 
 int main(void) {
-    int sample_num = 1000;
-    int max_k = 1000;
-    float max_t = 1.0f;
-    // float weight;
-    for (int k = 0; k < max_k; k++) {
-        // float real = 0.0f;
-        // float imag = 0.0f;
-        for (int n = 0; n < sample_num; n++) {
-            float theta = -(float)n / (float)sample_num * 2.0f * M_PIf * max_t;
-            float w_n = -(float)n / (float)sample_num * 2.0f * M_PIf * (float)k;
-            float r = target_func(theta);
-            // real += r * cosf(w_n);
-            // imag += r * sinf(w_n);
-            if (k == 996 || k == 997 || k == 998) {
-                printf("%d, %f, %f\n", k, (double)(r * cosf(w_n)), (double)(r * sinf(w_n)));
-            }
-        }
-        // weight = rootnf(real * real + imag * imag, 2);
-        // printf("%d[hz]: %lf\n", k, (double)weight);
+    double complex samples[Sample_N];
+    double complex freq_domain[Sample_N];
+    target_func(samples, Sample_N);
+
+    dft(freq_domain, samples, Sample_N);
+
+    printf("k, F(k)\n");
+    for (size_t i = 0; i < Sample_N; i++) {
+        printf("%zu, %lf\n", i, cabs(freq_domain[i]));
     }
     return 0;
 }
 
-float target_func(float x) {
-    float y = sinf(3 * x);
-    return y;
+void dft(double complex* out, const double complex* in, size_t N) {
+    for (size_t k = 0; k < N; k++) {
+        out[k] = 0.0 + 0.0 * I;
+        for (size_t n = 0; n < N; n++) {
+            out[k] += in[n] * cexp(-I * 2.0 * M_PI * k * n / (double)N);
+        }
+    }
+}
+
+void target_func(double complex *out, size_t N) {
+    for (size_t n = 0; n < N; n++) {
+        out[n] = csin((2 * M_PI * n / (double)N) * 3) + csin((2 * M_PI * n / (double)N) * 6);
+    }
+    return;
 }
