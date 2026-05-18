@@ -19,7 +19,7 @@ int main(void) {
     int start_n = 1;
     int end_n = 28;
 
-    printf("N,DFT_Time(s),FFT_Time(s)\n");
+    printf("N, FFT_Time(s)\n");
     
     for (size_t i = start_n; i <= end_n; i++) {
         size_t N = pow(2, i);
