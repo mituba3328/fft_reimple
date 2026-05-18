@@ -4,3 +4,4 @@
 -std=gnu23
 -O3
 -mfpmath=sse
+-openmp
