@@ -51,7 +51,7 @@ double get_time(void) {
     return (double)ts.tv_sec + (double)ts.tv_nsec * 1e-9;
 }
 
-// f(x)) = sin(3x) + sin(6x)
+// f(x)) = sin(3x) + cos(6x)
 void target_func(double complex *out, size_t N) {
     for (size_t i = 0; i < N; i++) {
         out[i] = csin((2 * M_PI * i / (double)i) * 3) + ccos((2 * M_PI * i / (double)N) * 6);
